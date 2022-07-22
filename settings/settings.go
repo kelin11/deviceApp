@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+
 	"gopkg.in/ini.v1"
 )
 
@@ -14,6 +15,7 @@ var (
 	DbPort     string
 	DbPassWord string
 	DbName     string
+	JwtKey     string
 )
 
 func init() {
@@ -36,4 +38,5 @@ func LoadDataBase(file *ini.File) {
 	DbPassWord = file.Section("database").Key("DbPassWord").MustString("root")
 	DbName = file.Section("database").Key("DbName").MustString("deviceApp")
 	DbPort = file.Section("database").Key("DbPort").MustString("3306")
+	JwtKey = file.Section("database").Key("JwtKey").MustString("hksadjnadlvmmloijdsdlkasmsd")
 }
