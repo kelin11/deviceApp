@@ -3,6 +3,7 @@ package errmsg
 const (
 	ERROR   = 500
 	SUCCESS = 200
+	INVALID_PARAM
 
 	ERROR_USERNAME_USED    = 1001
 	ERROR_PASSWD_FAIL      = 1002

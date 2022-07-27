@@ -15,7 +15,7 @@ var err error
 
 func InitDB() {
 	//root:root@tcp(localhost:3306)/ginblog?charset=utf8&parseTime=true
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8*parseTime=True",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True",
 		settings.DbUser,
 		settings.DbPassWord,
 		settings.DbHost,
@@ -24,8 +24,9 @@ func InitDB() {
 	)
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	var sqlDB *sql.DB
+	sqlDB, err = db.DB()
 	//自动保持数据库处于最新状态
-	db.AutoMigrate(&model.User{}, &model.Device{}, &model.Solution{})
+	db.AutoMigrate(&model.User{}, &model.Device{}, &model.Solution{}, &model.Bug{})
 
 	// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
 	sqlDB.SetMaxIdleConns(10)
