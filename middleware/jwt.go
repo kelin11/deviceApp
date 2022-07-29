@@ -1,14 +1,11 @@
 package middleware
 
 import (
-	v1 "deviceApp/api/v1"
 	errmsg "deviceApp/code"
 	"deviceApp/settings"
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"time"
 )
 
 var JwtKey = []byte(settings.JwtKey)
@@ -19,23 +16,11 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func CreateToken(ctx *gin.Context) {
-	expireTime := time.Now().Add(7 * 24 * time.Hour)
-	cliams := &Claims{
-		v1.Username,
-		jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(), //过期时间
-			IssuedAt:  time.Now().Unix(),
-			Issuer:    "127.0.0.1", // 签名颁发者
-			Subject:   "deviceApp", //签名主题
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, cliams)
+func CreateToken(cliam Claims) (string, error) {
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, cliam)
 	tokenString, err := token.SignedString(JwtKey)
-	if err != nil {
-		fmt.Println(err)
-	}
-	ctx.JSON(http.StatusOK, gin.H{"token": tokenString})
+	return tokenString, err
 }
 
 func JWTMiddleWare() gin.HandlerFunc {
@@ -53,7 +38,7 @@ func JWTMiddleWare() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		v1.Username = claims.Username
+		ctx.Set("username", claims.Username)
 	}
 }
 
