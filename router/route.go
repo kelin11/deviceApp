@@ -1,7 +1,7 @@
 package router
 
 import (
-	v1 "deviceApp/api/v1"
+	"deviceApp/api/v1"
 	"deviceApp/middleware"
 	"deviceApp/settings"
 	"github.com/gin-gonic/gin"
@@ -24,4 +24,5 @@ func InitRouter() {
 	//维修信息
 
 	r.Run(settings.HttpPort)
+
 }
