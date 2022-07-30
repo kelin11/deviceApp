@@ -25,6 +25,7 @@ func InitDB() {
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	var sqlDB *sql.DB
 	sqlDB, err = db.DB()
+
 	//自动保持数据库处于最新状态
 	db.AutoMigrate(&model.User{}, &model.Device{}, &model.Solution{}, &model.Bug{})
 

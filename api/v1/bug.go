@@ -11,11 +11,11 @@ import (
 //保修故障设备
 func SubmitUnDevice(c *gin.Context) {
 	//拿到上报人的学号
-	var uName string
 	var bug model.Bug
 	_ = c.ShouldBindJSON(&bug)
-	uName = c.Param(uName)
-	code := orm.SubmitUnDevice(bug, uName)
+	uName, _ := c.Get("username")
+	uNameStr := uName.(string)
+	code := orm.SubmitUnDevice(bug, uNameStr)
 	if code == errmsg.ERROR {
 		c.Abort()
 	}

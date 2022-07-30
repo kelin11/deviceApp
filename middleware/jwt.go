@@ -6,9 +6,11 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 var JwtKey = []byte(settings.JwtKey)
+
 var str string
 
 type Claims struct {
@@ -23,8 +25,14 @@ func CreateToken(cliam Claims) (string, error) {
 	return tokenString, err
 }
 
+//gin中设置控制jwt中间件拦截器 除了login都会进行登录拦截(进行token验证)
 func JWTMiddleWare() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+
+		if strings.Contains(ctx.Request.URL.Path, "login") {
+			//如果包含 那么久不进行拦截处理
+			return
+		}
 		tokenString := ctx.GetHeader("Authorization")
 		if tokenString == "" {
 			ctx.JSON(http.StatusUnauthorized, gin.H{"code": errmsg.ERROR_TOKEN_WRONG, "msg": errmsg.GetMessage(errmsg.ERROR_TOKEN_WRONG)})
@@ -38,6 +46,7 @@ func JWTMiddleWare() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
+		//中间设置全局变量username名称 在其他需要上报的时候直接在context中拿取即可
 		ctx.Set("username", claims.Username)
 	}
 }

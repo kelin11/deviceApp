@@ -23,6 +23,7 @@ func Login(ctx *gin.Context) {
 			"code": code,
 			"msg":  errmsg.GetMessage(code),
 		})
+		return
 	}
 	Username = username
 	SetToken(ctx, user)

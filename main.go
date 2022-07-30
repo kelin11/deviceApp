@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-
 	orm.InitDB()
 	router.InitRouter()
 

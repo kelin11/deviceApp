@@ -8,7 +8,7 @@ import (
 //验证用户登录
 func CheckLogin(data *model.User) (code int, userName string) {
 	var user model.User
-	db.Where("username like ?", data.UserName).First(&user)
+	db.Where("user_name like ?", data.UserName).First(&user)
 	//是否存在此用户
 	if user.ID == 0 {
 		return errmsg.ERROR, ""
