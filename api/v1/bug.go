@@ -25,3 +25,39 @@ func SubmitUnDevice(c *gin.Context) {
 	})
 
 }
+
+
+// 故障表数据展示接口--无条件查询
+func ShowBugTable(c *gin.Context) {
+	data, code := orm.GetAllBugTable()
+	if code == errmsg.ERROR{
+		c.JSON(http.StatusOK, gin.H{
+			"code": 	code,
+			"message": 	errmsg.GetMessage(code),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 	code,
+		"message": 	errmsg.GetMessage(code),
+		"data": 	data,
+	})
+}
+
+// 根据实验室Lab故障表数据展示接口--条件查询
+func ShowBugTableByLab(c *gin.Context)  {
+	lab := c.Query("lab")
+	code, data := orm.GetBugTableByLab(lab)
+	if code != errmsg.ERROR {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 	code,
+			"message": 	errmsg.GetMessage(code),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 	code,
+		"message": 	errmsg.GetMessage(code),
+		"data": 	data,
+	})
+}
