@@ -2,7 +2,6 @@ package router
 
 import (
 	"deviceApp/api/v1"
-	"deviceApp/middleware"
 	"deviceApp/settings"
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +9,9 @@ import (
 func InitRouter() {
 	gin.SetMode(settings.AppMode)
 	r := gin.Default()
-	r.Use(middleware.JWTMiddleWare())
+	//r.Use(middleware.JWTMiddleWare())
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
+
 	//分组路由
 
 	//用户登录
@@ -21,8 +22,28 @@ func InitRouter() {
 	//查看该实验室中所有不可用设备
 	routerV1.GET("device/", v1.GetAllUnDevice)
 	routerV1.POST("device/submit", v1.SubmitUnDevice)
-	//维修信息
 
+	//// 根据实验室Lab查询设备
+	//routerV1.GET("device/", v1.GetAllDeviceByLab)
+
+	// 查询故障表数据
+	routerV1.GET("bug/", v1.GetBugList)
+	routerV1.GET("bug/detail", v1.GetBugDetail)
+
+	//上传文件图片
+	//routerV1.POST("upload/", v1.Upload)
+	//详细故障信息 id 是 device_id
+	//routerV1.GET("bug/:id", v1.GetDetailBug)
+
+	//维修信息
+	// 获取所有维修反馈数据
+	routerV1.GET("device/solution/", v1.ShowALLSolutionTable)
+	// 维修人员上传维修反馈
+	routerV1.POST("device/solution/submit", v1.SubmitSolutionTable)
+	//将数据库存储solution数据转换为:excel文件
+	routerV1.POST("device/solution/transfer", v1.TransferExcel)
+
+	
 	r.Run(settings.HttpPort)
 
 }

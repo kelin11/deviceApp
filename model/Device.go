@@ -10,4 +10,6 @@ type Device struct {
 	Lab    string `gorm:"varchar(20);not null" json:"lab"`
 	//status : 0不可用 1 可用 2 维修中
 	Status int `gorm:"int;not null" json:"status"`
+	//故障次数
+	Bug_num int `gorm:"varchar(20);not null" json:"bug_num"`
 }

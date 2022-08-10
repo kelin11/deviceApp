@@ -9,3 +9,4 @@ type User struct {
 	//0 维修人员 1 普通学生 2 后台管理员
 	Role int `gorm:"type:int;not null" json:"role"`
 }
+

@@ -11,5 +11,5 @@ type Bug struct {
 
 	U_name   string `gorm:"type:varchar(20);not null" json:"username"`
 	Img      string `gorm:"type:varchar(100)" json:"image"`
-	comments string `gorm:"type:text" json:"comments"`
+	Comments string `gorm:"type:text" json:"comments"`
 }

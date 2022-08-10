@@ -5,6 +5,7 @@ import (
 	"deviceApp/model"
 )
 
+
 //验证用户登录
 func CheckLogin(data *model.User) (code int, userName string) {
 	var user model.User
@@ -18,4 +19,5 @@ func CheckLogin(data *model.User) (code int, userName string) {
 		return errmsg.ERROR_PASSWD_FAIL, ""
 	}
 	return errmsg.SUCCESS, user.UserName
+
 }

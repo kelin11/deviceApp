@@ -47,7 +47,7 @@ func SetToken(c *gin.Context, user model.User) {
 		})
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":  200,
+		"status":  200,K
 		"data":    user.UserName,
 		"message": errmsg.GetMessage(200),
 		"token":   token,
