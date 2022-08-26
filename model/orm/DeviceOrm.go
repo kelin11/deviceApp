@@ -3,7 +3,6 @@ package orm
 import (
 	errmsg "deviceApp/code"
 	"deviceApp/model"
-	"fmt"
 	"log"
 )
 

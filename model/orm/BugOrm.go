@@ -55,3 +55,7 @@ func GetBugDetail(bugId string) (model.BugDetail, int) {
 	return bugDetail, errmsg.SUCCESS
 
 }
+
+func ExportBugExcel() {
+
+}
