@@ -2,22 +2,23 @@ package pkg
 
 import (
 	"bytes"
+	"deviceApp/model"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"reflect"
 	"strconv"
 )
 
-func downExcel(dataList []interface{}) (*bytes.Buffer, error) {
+func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
 	newSheetName := "default"
 	f := excelize.NewFile()
 	f.SetSheetName("Sheet1", newSheetName)
 	rowNum := 1
 
 	// save
-	for  i, v := range dataList {
+	for  i, bugDetail := range bugDetails {
 		// reflect
-		p := reflect.TypeOf(v)
+		p := reflect.TypeOf(bugDetail)
 		// title
 		if i == 0 {
 			fmt.Println(p.String())
@@ -35,7 +36,7 @@ func downExcel(dataList []interface{}) (*bytes.Buffer, error) {
 			f.SetSheetRow(newSheetName, "A1", &header)
 		}
 
-		valObj := reflect.ValueOf(v)
+		valObj := reflect.ValueOf(bugDetail)
 		// read data to excel
 		valueList := make([]interface{}, 0)
 		for j := 0; j < p.NumField(); j++ {

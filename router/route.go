@@ -43,7 +43,9 @@ func InitRouter() {
 	//将数据库存储solution数据转换为:excel文件
 	routerV1.POST("device/solution/transfer", v1.TransferExcel)
 
-	
+	// Excel
+	routerV1.GET("bug/export", v1.ExportBugInfo)
+
 	r.Run(settings.HttpPort)
 
 }

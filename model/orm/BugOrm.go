@@ -1,8 +1,10 @@
 package orm
 
 import (
+	"bytes"
 	errmsg "deviceApp/code"
 	"deviceApp/model"
+	"deviceApp/pkg"
 	"fmt"
 	"log"
 
@@ -28,11 +30,11 @@ func SubmitUnDevice(data model.Bug, uName string) (code int) {
 //return :
 func GetBugList() ([]model.Bug, int) {
 	var bugList []model.Bug
-	err := db.Select("d_name", "d_id", "lab").Find(&bugList)
-	if err != nil {
-		log.Fatal("Function GetAllBugTable sql查询错误: ", err)
-		return nil, errmsg.ERROR
-	}
+	db.Model(&model.Bug{}).Select("d_id","lab","id").Find(&bugList)
+	//if err != nil {
+	//	log.Fatal("Function GetBugList sql查询错误: ", err)
+	//	return nil, errmsg.ERROR
+	//}
 	return bugList, errmsg.SUCCESS
 }
 
@@ -56,6 +58,19 @@ func GetBugDetail(bugId string) (model.BugDetail, int) {
 
 }
 
-func ExportBugExcel() {
+func ExportBugExcel() *bytes.Buffer {
+	bugList, code := GetBugList()
+	if code != errmsg.SUCCESS {
+		return nil
+	}
+	var bugDetailList [] model.BugDetail
 
+	for _, bugDetail := range bugList {
+		bugId := string(bugDetail.ID)
+		detail, _ := GetBugDetail(bugId)
+		bugDetailList = append(bugDetailList, detail)
+	}
+
+	excel, _ := pkg.DownExcel(bugDetailList)
+	return excel
 }

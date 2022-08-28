@@ -49,3 +49,10 @@ func GetBugDetail(c *gin.Context) {
 		"data": data,
 	})
 }
+
+// ExportBugInfo
+func ExportBugInfo(c *gin.Context) {
+	excel := orm.ExportBugExcel()
+	c.Header("response-type", "blob")
+	c.Data(http.StatusOK, "application/vnd.ms-excel", excel.Bytes())
+}
