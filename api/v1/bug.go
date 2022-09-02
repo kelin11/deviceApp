@@ -4,8 +4,10 @@ import (
 	errmsg "deviceApp/code"
 	"deviceApp/model"
 	"deviceApp/model/orm"
-	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 //保修故障设备
@@ -42,7 +44,9 @@ func GetBugList(c *gin.Context) {
 //展示故障详情 需要bugId
 func GetBugDetail(c *gin.Context) {
 	bid := c.Query("id")
-	data, code := orm.GetBugDetail(bid)
+	// 将string类型转换为int类型
+	bugId, _ := strconv.Atoi(bid)
+	data, code := orm.GetBugDetail(bugId)
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  errmsg.GetMessage(code),

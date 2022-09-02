@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"deviceApp/model"
 	"fmt"
-	"github.com/xuri/excelize/v2"
 	"reflect"
 	"strconv"
+
+	"github.com/xuri/excelize/v2"
 )
 
 func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
@@ -16,18 +17,20 @@ func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
 	rowNum := 1
 
 	// save
-	for  i, bugDetail := range bugDetails {
+	for i, bugDetail := range bugDetails {
+		fmt.Println("===============")
+		fmt.Println(bugDetail)
 		// reflect
 		p := reflect.TypeOf(bugDetail)
 		// title
 		if i == 0 {
-			fmt.Println(p.String())
 			// 表头
 			header := make([]string, 0)
-			for j := 0; j < p.NumField(); j++ {
+			fmt.Println("================Numfield", p.NumField())
+			for j := 1; j < p.NumField(); j++ {
 				//  fieldName of Struct
 				key := p.Field(j)
-				fmt.Println("name=", key.Name, "tag=", key.Tag.Get("xlsx"))
+				fmt.Println("name =", key.Name, "tag =", key.Tag.Get("xlsx"))
 				tag := key.Tag.Get("xlsx")
 				if tag != "" {
 					header = append(header, tag)
@@ -39,7 +42,7 @@ func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
 		valObj := reflect.ValueOf(bugDetail)
 		// read data to excel
 		valueList := make([]interface{}, 0)
-		for j := 0; j < p.NumField(); j++ {
+		for j := 1; j < p.NumField(); j++ {
 			key := p.Field(j)
 			tag := key.Tag.Get("xlsx")
 			if tag != "" {
@@ -50,8 +53,9 @@ func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
 		rowNum++
 		f.SetSheetRow(newSheetName, "A"+strconv.Itoa(rowNum), &valueList)
 	}
-	if err := f.SaveAs("./cmd/deviceapp-demo/Book2.xlsx"); err != nil {
-		fmt.Println(err)
-	}
+	// 本地测试保存代码
+	// if err := f.SaveAs("Book2.xlsx"); err != nil {
+	// 	fmt.Println(err)
+	// }
 	return f.WriteToBuffer()
 }

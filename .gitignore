@@ -7,4 +7,5 @@
 # config
 config/config.ini
 
-
+# .xlsx
+*.xlsx

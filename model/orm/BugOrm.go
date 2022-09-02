@@ -5,7 +5,6 @@ import (
 	errmsg "deviceApp/code"
 	"deviceApp/model"
 	"deviceApp/pkg"
-	"fmt"
 	"log"
 
 	"gorm.io/gorm"
@@ -30,7 +29,7 @@ func SubmitUnDevice(data model.Bug, uName string) (code int) {
 //return :
 func GetBugList() ([]model.Bug, int) {
 	var bugList []model.Bug
-	db.Model(&model.Bug{}).Select("d_id","lab","id").Find(&bugList)
+	db.Model(&model.Bug{}).Select("d_id", "lab", "id").Find(&bugList)
 	//if err != nil {
 	//	log.Fatal("Function GetBugList sql查询错误: ", err)
 	//	return nil, errmsg.ERROR
@@ -39,12 +38,11 @@ func GetBugList() ([]model.Bug, int) {
 }
 
 //查询bug详细信息 以此为基准输出excel文件
-func GetBugDetail(bugId string) (model.BugDetail, int) {
+func GetBugDetail(bugId int) (model.BugDetail, int) {
 	var bugDetail model.BugDetail
 	var bug model.Bug
 	//var device model.Device
 	db.Where("id = ?", bugId).Select("d_id").First(&bug)
-	fmt.Println(bug.D_id)
 	err = db.Model(&bug).
 		Select("bugs.*,devices.bug_num").
 		Joins("left join devices on devices.d_id=bugs.d_id").
@@ -58,16 +56,16 @@ func GetBugDetail(bugId string) (model.BugDetail, int) {
 
 }
 
+// ExportBugExcel 导出Bug数据为Excel表格
 func ExportBugExcel() *bytes.Buffer {
 	bugList, code := GetBugList()
 	if code != errmsg.SUCCESS {
 		return nil
 	}
-	var bugDetailList [] model.BugDetail
+	var bugDetailList []model.BugDetail
 
 	for _, bugDetail := range bugList {
-		bugId := string(bugDetail.ID)
-		detail, _ := GetBugDetail(bugId)
+		detail, _ := GetBugDetail(int(bugDetail.ID))
 		bugDetailList = append(bugDetailList, detail)
 	}
 
