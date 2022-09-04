@@ -5,13 +5,13 @@ import (
 	"deviceApp/middleware"
 	"deviceApp/model"
 	"deviceApp/model/orm"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
-var Username string
 
 //维修人员的账号数据库里面有吗?
 func Login(ctx *gin.Context) {
@@ -25,7 +25,7 @@ func Login(ctx *gin.Context) {
 		})
 		return
 	}
-	Username = username
+	ctx.Set("username",username)
 	SetToken(ctx, user)
 }
 

@@ -1,8 +1,9 @@
 package router
 
 import (
-	"deviceApp/api/v1"
+	v1 "deviceApp/api/v1"
 	"deviceApp/settings"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,15 +21,15 @@ func InitRouter() {
 
 	//报修信息路由
 	//查看该实验室中所有不可用设备
-	routerV1.GET("device/", v1.GetAllUnDevice)
-	routerV1.POST("device/submit", v1.SubmitUnDevice)
+	routerV1.GET("device/disable", v1.GetAllUnDevice)
+	routerV1.POST("device/bug/submit", v1.SubmitUnDevice)
 
 	//// 根据实验室Lab查询设备
-	//routerV1.GET("device/", v1.GetAllDeviceByLab)
+	//routerV1.GET("device", v1.GetAllDeviceByLab)
 
 	// 查询故障表数据
-	routerV1.GET("bug/", v1.GetBugList)
-	routerV1.GET("bug/detail", v1.GetBugDetail)
+	routerV1.GET("device/bug/", v1.GetBugList)
+	routerV1.GET("device/bug/detail", v1.GetBugDetail)
 
 	//上传文件图片
 	//routerV1.POST("upload/", v1.Upload)
@@ -44,7 +45,7 @@ func InitRouter() {
 	routerV1.POST("device/solution/transfer", v1.TransferExcel)
 
 	// Excel
-	routerV1.GET("bug/export", v1.ExportBugInfo)
+	routerV1.GET("device/bug/export", v1.ExportBugInfo)
 
 	r.Run(settings.HttpPort)
 

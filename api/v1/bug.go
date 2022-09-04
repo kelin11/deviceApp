@@ -4,6 +4,7 @@ import (
 	errmsg "deviceApp/code"
 	"deviceApp/model"
 	"deviceApp/model/orm"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -15,7 +16,9 @@ func SubmitUnDevice(c *gin.Context) {
 	//拿到上报人的学号
 	var bug model.Bug
 	_ = c.ShouldBindJSON(&bug)
+
 	uName, _ := c.Get("username")
+	fmt.Println(uName)
 	uNameStr := uName.(string)
 	code := orm.SubmitUnDevice(bug, uNameStr)
 	if code == errmsg.ERROR {

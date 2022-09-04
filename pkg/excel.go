@@ -11,7 +11,7 @@ import (
 )
 
 func DownExcel(bugDetails []model.BugDetail) (*bytes.Buffer, error) {
-	newSheetName := "default"
+	newSheetName := "故障表"
 	f := excelize.NewFile()
 	f.SetSheetName("Sheet1", newSheetName)
 	rowNum := 1
