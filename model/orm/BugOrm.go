@@ -5,6 +5,7 @@ import (
 	errmsg "deviceApp/code"
 	"deviceApp/model"
 	"deviceApp/pkg"
+	"fmt"
 	"log"
 
 	"gorm.io/gorm"
@@ -30,6 +31,7 @@ func SubmitUnDevice(data model.Bug, uName string) (code int) {
 func GetBugList() ([]model.Bug, int) {
 	var bugList []model.Bug
 	db.Model(&model.Bug{}).Select("d_id", "lab", "id").Find(&bugList)
+	// db.Model(&model.Bug{}).Find(&bugList)
 	//if err != nil {
 	//	log.Fatal("Function GetBugList sql查询错误: ", err)
 	//	return nil, errmsg.ERROR
@@ -48,6 +50,7 @@ func GetBugDetail(bugId int) (model.BugDetail, int) {
 		Joins("left join devices on devices.d_id=bugs.d_id").
 		Where("bugs.d_id = ?", bug.D_id).
 		Scan(&bugDetail).Error
+	fmt.Println(bugDetail)
 	if err != nil {
 		log.Fatal("bugDetail查询出现问题", err)
 		return bugDetail, errmsg.ERROR

@@ -18,14 +18,15 @@ func Login(ctx *gin.Context) {
 	var user model.User
 	_ = ctx.ShouldBindJSON(&user)
 	code, username := orm.CheckLogin(&user)
-	if code == errmsg.ERROR {
+	if code == errmsg.ERROR || username==""{
+		code = errmsg.ERROR
 		ctx.JSON(http.StatusOK, gin.H{
 			"code": code,
 			"msg":  errmsg.GetMessage(code),
 		})
 		return
 	}
-	ctx.Set("username",username)
+
 	SetToken(ctx, user)
 }
 

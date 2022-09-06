@@ -15,7 +15,7 @@ func CheckLogin(data *model.User) (code int, userName string) {
 	}
 	//验证密码
 	if data.PassWord != user.PassWord {
-		return errmsg.ERROR_PASSWD_FAIL, ""
+		return errmsg.ERROR, ""
 	}
 	return errmsg.SUCCESS, user.UserName
 
