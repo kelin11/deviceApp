@@ -5,9 +5,10 @@ import (
 	"deviceApp/model"
 	"deviceApp/settings"
 	"fmt"
+	"time"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"time"
 )
 
 var db *gorm.DB
@@ -27,7 +28,7 @@ func InitDB() {
 	sqlDB, err = db.DB()
 
 	//自动保持数据库处于最新状态
-	db.AutoMigrate(&model.User{}, &model.Device{}, &model.Solution{}, &model.Bug{}, &model.BugDetail{})
+	db.AutoMigrate(&model.User{}, &model.Device{}, &model.Solution{}, &model.Bug{})
 
 	// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
 	sqlDB.SetMaxIdleConns(10)

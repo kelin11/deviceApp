@@ -10,8 +10,3 @@ func main() {
 	router.InitRouter()
 
 }
-
-
-func Test(data any){
-
-}
