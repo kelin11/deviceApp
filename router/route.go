@@ -2,6 +2,7 @@ package router
 
 import (
 	v1 "deviceApp/api/v1"
+	"deviceApp/middleware"
 	"deviceApp/settings"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,7 @@ import (
 func InitRouter() {
 	gin.SetMode(settings.AppMode)
 	r := gin.Default()
-	//r.Use(middleware.JWTMiddleWare())
+	r.Use(middleware.JWTMiddleWare())
 	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	//分组路由
